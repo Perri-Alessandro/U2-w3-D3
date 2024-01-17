@@ -1,3 +1,5 @@
+let booksArray = JSON.parse(localStorage.getItem("arrayUtente")) || [];
+
 const getBook = function () {
   fetch("https://striveschool-api.herokuapp.com/books")
     .then((risposta) => {
@@ -17,7 +19,7 @@ const getBook = function () {
       const divBook = document.getElementById("divBook");
       const rowCard = document.createElement("div");
       rowCard.classList.add("row", "justify-content-center", "g-3");
-      booksArray.forEach((book) => {
+      booksArray.forEach((book, i) => {
         const contenutoCard = document.createElement("div");
         contenutoCard.classList.add("col-4");
         contenutoCard.innerHTML = `
@@ -26,10 +28,12 @@ const getBook = function () {
                            book.img
                          }" class="card-img-top h-100" alt="copertina">
                          <div class="card-body text-center ">
-                          <h5 class="card-title">TITLE:<br>${book.title.toUpperCase()}</h5>
+                          <h5 class="card-title"><span class = "text-danger">Title:</span><br>${book.title.toUpperCase()}</h5>
                           <p class="card-text">PRICE: ${book.price}</p>
-                          <a href="#" class="btn btn-primary">SCARTA</a>
-                          <a href="#" class="btn btn-danger mt-1">AGGIUNGI A CARRELLO</a>
+                          <div class = "row row-col-2  align-items-center g-2">
+                           <a href="#" class="btn btn-primary">SCARTA</a>
+                           <a href="#" class="btn btn-danger mt-1">AGGIUNGI A CARRELLO</a>
+                          </div>
                          </div>
                       </div>
         `;
@@ -45,8 +49,35 @@ const getBook = function () {
         addToCartButton.addEventListener("click", function () {
           const card = this.closest(".col-4");
           const carrello = document.getElementById("carrello");
-          carrello.appendChild(card.cloneNode(true));
+
+          booksArray.push({
+            img: book.img,
+            title: book.title,
+            price: book.price,
+          });
+          localStorage.setItem("arrayUtente", JSON.stringify(booksArray));
+
+          const titolo = document.getElementsByClassName("card-title")[i];
+          carrello.appendChild(titolo);
+          titolo.classList.add("mb-4");
           card.classList.add("d-none");
+
+          const bottTogliCarrello = document.createElement("button");
+          bottTogliCarrello.textContent = "RIMUOVI";
+          bottTogliCarrello.classList.add(
+            "fs-5",
+            "col-12",
+            "py-1",
+            "px-3",
+            "bg-dark",
+            "text-white",
+            "mt-2"
+          );
+          titolo.appendChild(bottTogliCarrello);
+          bottTogliCarrello.addEventListener("click", function () {
+            card.classList.remove("d-none");
+            titolo.remove();
+          });
         });
       });
     })
