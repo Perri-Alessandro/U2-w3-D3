@@ -1,5 +1,3 @@
-let booksArray = JSON.parse(localStorage.getItem("arrayUtente")) || [];
-
 const getBook = function () {
   fetch("https://striveschool-api.herokuapp.com/books")
     .then((risposta) => {
@@ -46,17 +44,10 @@ const getBook = function () {
         });
 
         const addToCartButton = contenutoCard.querySelector(".btn-danger");
-        addToCartButton.addEventListener("click", function () {
+        addToCartButton.addEventListener("click", function (e) {
+          e.preventDefault();
           const card = this.closest(".col-4");
           const carrello = document.getElementById("carrello");
-
-          booksArray.push({
-            img: book.img,
-            title: book.title,
-            price: book.price,
-          });
-          localStorage.setItem("arrayUtente", JSON.stringify(booksArray));
-
           const titolo = document.getElementsByClassName("card-title")[i];
           carrello.appendChild(titolo);
           titolo.classList.add("mb-4");
