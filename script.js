@@ -24,8 +24,8 @@ const getBook = function () {
                       <div class="card border-warning" >
                          <img src="${
                            book.img
-                         }" class="card-img-top" alt="copertina">
-                         <div class="card-body text-center">
+                         }" class="card-img-top h-100" alt="copertina">
+                         <div class="card-body text-center ">
                           <h5 class="card-title">TITLE:<br>${book.title.toUpperCase()}</h5>
                           <p class="card-text">PRICE: ${book.price}</p>
                           <a href="#" class="btn btn-primary">SCARTA</a>
@@ -38,7 +38,7 @@ const getBook = function () {
 
         const deleteButton = contenutoCard.querySelector(".btn-primary");
         deleteButton.addEventListener("click", function () {
-          contenutoCard.classList.add("d-none");
+          contenutoCard.closest(".col-4").remove();
         });
 
         const addToCartButton = contenutoCard.querySelector(".btn-danger");
