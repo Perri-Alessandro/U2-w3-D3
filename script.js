@@ -29,6 +29,7 @@ const getBook = function () {
                           <h5 class="card-title">TITLE:<br>${book.title.toUpperCase()}</h5>
                           <p class="card-text">PRICE: ${book.price}</p>
                           <a href="#" class="btn btn-primary">SCARTA</a>
+                          <a href="#" class="btn btn-danger mt-1">AGGIUNGI A CARRELLO</a>
                          </div>
                       </div>
         `;
@@ -39,9 +40,16 @@ const getBook = function () {
         deleteButton.addEventListener("click", function () {
           contenutoCard.classList.add("d-none");
         });
+
+        const addToCartButton = contenutoCard.querySelector(".btn-danger");
+        addToCartButton.addEventListener("click", function () {
+          const card = this.closest(".col-4");
+          const carrello = document.getElementById("carrello");
+          carrello.appendChild(card.cloneNode(true));
+          card.classList.add("d-none");
+        });
       });
     })
-
     .catch((errore) => {
       console.log("Errore generico", errore);
     });
